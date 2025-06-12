@@ -25,7 +25,7 @@ This project aims to develop a machine learning model to detect Distributed Deni
 
 ## Architecture and Scenario 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e8fc6ff1-6c20-4c0d-99fc-84e31a6c72a9" alt="mô hình quy trình hoạt động" width="600">
+  <img src="https://github.com/user-attachments/assets/8aa558ab-49a3-4b16-a4e8-53472c7609f0" alt="mô hình quy trình hoạt động" width="600">
 </p>
 
 The project leverages an SDN architecture with a centralized controller managing network traffic. The scenario includes:
@@ -42,7 +42,7 @@ The project leverages an SDN architecture with a centralized controller managing
 
 ## Simulation Environment
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/6dbd9ad6-0e51-4925-900a-080f976d6bbe" alt="Mininet Topology Diagram" width="600">
+  <img src="https://github.com/user-attachments/assets/dccfbcbb-9db8-4ddd-928f-450ffd371357" alt="Mininet Topology Diagram" width="600">
 </p>
 
 The simulation environment is set up using Mininet with the following configuration:
