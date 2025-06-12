@@ -1,0 +1,78 @@
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import pickle
+import os
+import time
+
+# Đảm bảo thư mục results và models tồn tại
+results_dir = "/home/kieungan/DDoS_Detection_SDN/results/"
+models_dir = "/home/kieungan/DDoS_Detection_SDN/models/"
+
+if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
+
+if not os.path.exists(models_dir):
+    os.makedirs(models_dir)
+
+# Đọc dataset đã xử lý
+df = pd.read_csv('/home/kieungan/DDoS_Detection_SDN/data/processed/balanced_dataset.csv')
+
+# Kiểm tra dữ liệu đầu vào
+required_columns = ['src_ip', 'dst_ip', 'protocol', 'length', 'src_port', 'dst_port', 'label']
+if not all(col in df.columns for col in required_columns):
+    raise ValueError("Dataset thiếu một hoặc nhiều cột cần thiết: " + ", ".join(required_columns))
+
+# Danh sách đặc trưng
+features = ['src_ip', 'dst_ip', 'protocol', 'length', 'src_port', 'dst_port']
+X = df[features]
+y = df['label']
+
+# Chia dữ liệu thành tập huấn luyện và kiểm tra
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Huấn luyện mô hình Random Forest
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+
+# Đo độ trễ phát hiện
+start_time = time.time()
+y_pred = rf_model.predict(X_test)
+end_time = time.time()
+detection_latency = (end_time - start_time) / len(X_test) * 1000  # Độ trễ trung bình mỗi mẫu (ms)
+
+# Đánh giá mô hình
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+
+# Hiển thị kết quả đánh giá trên terminal
+print("Kết quả đánh giá mô hình:")
+print(f"Accuracy: {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall: {recall:.4f}")
+print(f"F1-Score: {f1:.4f}")
+print(f"Detection Latency: {detection_latency:.4f} ms/sample")
+
+# Lưu kết quả đánh giá
+with open(os.path.join(results_dir, "evaluation_metrics.txt"), 'w') as f:
+    f.write(f'Accuracy: {accuracy:.4f}\n')
+    f.write(f'Precision: {precision:.4f}\n')
+    f.write(f'Recall: {recall:.4f}\n')
+    f.write(f'F1-Score: {f1:.4f}\n')
+    f.write(f'Detection Latency: {detection_latency:.4f} ms/sample\n')
+
+# Lưu độ trễ phát hiện
+with open(os.path.join(results_dir, "detection_latency.csv"), 'w') as f:
+    f.write("Sample,Latency (ms)\n")
+    for i in range(len(X_test)):
+        f.write(f"{i},{detection_latency}\n")
+
+# Lưu mô hình
+with open(os.path.join(models_dir, "rf_model.pkl"), "wb") as f:
+    pickle.dump(rf_model, f)
+
+print("Huấn luyện hoàn tất. Kết quả đã được lưu vào /home/kieungan/DDoS_Detection_SDN/results/evaluation_metrics.txt")
+print("Mô hình đã được lưu vào /home/kieungan/DDoS_Detection_SDN/models/rf_model.pkl")
