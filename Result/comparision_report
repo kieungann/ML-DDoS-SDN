@@ -1,0 +1,41 @@
+BÁO CÁO SO SÁNH HIỆU QUẢ CÁC THUẬT TOÁN PHÁT HIỆN DDoS
+==================================================
+Thời gian: 2025-06-10 13:43:21
+
+Số lượng mẫu dữ liệu: 50000
+Số fold cross-validation: 5
+Kích thước tập huấn luyện: 35000
+Kích thước tập kiểm tra: 15000
+
+Kết quả đánh giá:
+------------------------------
+Mô hình: Random Forest
+Độ chính xác Cross-Validation (trung bình): 1.0000
+Độ chính xác trên tập kiểm tra: 1.0000
+Precision: 1.0000
+Recall: 1.0000
+F1-Score: 1.0000
+Thời gian Cross-Validation: 6.3240 giây
+Thời gian huấn luyện: 1.6663 giây
+Thời gian dự đoán: 0.1252 giây
+------------------------------
+Mô hình: SVM
+Độ chính xác Cross-Validation (trung bình): 0.9974
+Độ chính xác trên tập kiểm tra: 0.9972
+Precision: 0.9950
+Recall: 1.0000
+F1-Score: 0.9975
+Thời gian Cross-Validation: 0.3224 giây
+Thời gian huấn luyện: 0.0836 giây
+Thời gian dự đoán: 0.0010 giây
+------------------------------
+Mô hình: MLP
+Độ chính xác Cross-Validation (trung bình): 0.9974
+Độ chính xác trên tập kiểm tra: 0.9972
+Precision: 0.9950
+Recall: 1.0000
+F1-Score: 0.9975
+Thời gian Cross-Validation: 14.7931 giây
+Thời gian huấn luyện: 3.6439 giây
+Thời gian dự đoán: 0.0275 giây
+------------------------------
